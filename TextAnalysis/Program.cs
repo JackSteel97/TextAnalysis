@@ -12,17 +12,18 @@ namespace TextAnalysis
         {
            
             int choice = getUserChoice();
-
-            if(choice == 1)
+            Console.Clear();
+            if (choice == 1)
             {
                 //option 1 - enter text manually, sentence by sentence, * terminator
-                Console.Clear();
                 option1();
                 
 
             }else
             {
-                //option 2
+                //option 2 - read text from file
+
+                
             }
 
             Console.Read();
@@ -136,17 +137,20 @@ namespace TextAnalysis
             }
 
             //print results
+            Console.Clear();
 
+            Console.WriteLine("    RESULTS     \n\n");
             Console.WriteLine("Number of sentences entered = {0}", sentenceCount);
             Console.WriteLine("Number of words = {0}", wordCount);
             Console.WriteLine("Number of vowels = {0}", vowelCount);
             Console.WriteLine("Number of consonants = {0}", consonantCount);
             Console.WriteLine("Number of upper case letters = {0}", uppercaseCount);
-            Console.WriteLine("Number of lower case letters = {0}", lowercaseCount);
+            Console.WriteLine("Number of lower case letters = {0}\n", lowercaseCount);
             for (int i = 0; i < letterFrequency.Length; i++)
             {
                 if (letterFrequency[i] != 0) {
-                    Console.WriteLine("The letter '{0}' appeared {1} times",(char)i+65,letterFrequency[i]);
+                    char currentChar = Convert.ToChar(i + 65);
+                    Console.WriteLine("The letter '{0}' appeared {1} times",currentChar,letterFrequency[i]);
                 }
             }
         }

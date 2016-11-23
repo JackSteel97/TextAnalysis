@@ -105,7 +105,7 @@ namespace TextAnalysis
 
             for (int i = 0; i < sentence.Length; i++)
             {
-                char currentChar = sentence[i].ToString().ToLower().ToCharArray()[0];
+                char currentChar = sentence[i].ToString().ToUpper().ToCharArray()[0];
                 //using ASCII value to calculate the characters position in the alphabet, if it is a letter
                 int indexOfChar = (int)currentChar - 65;
                 //verify it is within the alphabet range
