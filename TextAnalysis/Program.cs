@@ -94,16 +94,34 @@ namespace TextAnalysis
                 {
                     //termination requested
                     endRequested = true;
+                    //remove the termination character so it is not counted in analysis
                     userInput = userInput.Remove(userInput.Length - 1, 1);
                 }
 
-
+                //add sentence entered to the list of sentences so far
                 Sentence currentSentence = new Sentence(userInput);
+                sentences.Add(currentSentence);
+            }
+            analyseSentences(sentences);
+        }
 
+        private static void analyseSentences(List<Sentence> sentences)
+        {
+            //initialise counters
+            int wordCount = 0;
+            int vowelCount = 0;
+            int consonantCount = 0;
+            int uppercaseCount = 0;
+            int lowercaseCount = 0;
+            int[] letterFrequency = new int[25];
 
-
+            for (int i = 0; i < sentences.Count; i++)
+            {
+                Sentence currentSentence = sentences[i];
+                //for every sentence
+               // wordCount += currentSentence
 
             }
-        }
+    }
     }
 }

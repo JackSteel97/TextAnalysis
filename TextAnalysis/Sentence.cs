@@ -116,5 +116,35 @@ namespace TextAnalysis
             }
         }
 
+        public int getWordCount()
+        {
+            return this.wordCount;
+        }
+
+
+        public int getVowelCount()
+        {
+            return this.vowelCount;
+        }
+
+        public int getConsonantCount()
+        {
+            return this.consonantCount;
+        }
+
+        public int getUppercaseCount()
+        {
+            return this.uppercaseCount;
+        }
+
+        public int getLowercaseCount()
+        {
+            return this.lowercaseCount;
+        }
+
+        public int[] getLetterFrequency()
+        {
+            return this.letterFrequency;
+        }
     }
 }
