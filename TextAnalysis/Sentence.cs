@@ -23,7 +23,7 @@ namespace TextAnalysis
             //calculate word count
             calculateWordCount();
 
-            //calculate vowel count
+            //calculate vowel and consonant count
         }
 
 
@@ -44,16 +44,23 @@ namespace TextAnalysis
         private void calculateVowelCount()
         {
             int vowels = 0;
+            int consonants = 0;
+
             for (int i = 0; i < sentence.Length; i++)
             {
                 string currentChar = sentence[i].ToString().ToLower();
                 if (currentChar == "a" || currentChar == "e" || currentChar == "i" || currentChar == "o" || currentChar == "u")
                 {
                     vowels++;
+
+                    //else, check the character is actually an upper or lower case letter before assuming it is a consonant
+                }else if((int)currentChar.ToCharArray()[0]<=90 && (int)currentChar.ToCharArray()[0] >= 65 && (int)currentChar.ToCharArray()[0] <=122 && (int)currentChar.ToCharArray()[0] >= 97)
+                {
+                    consonants++;
                 }
             }
-            vowels++;
             this.vowelCount = vowels;
+            this.consonantCount = consonants;
         }
 
     }
