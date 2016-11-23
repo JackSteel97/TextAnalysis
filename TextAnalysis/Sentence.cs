@@ -87,5 +87,28 @@ namespace TextAnalysis
             this.uppercaseCount = upperCase;
         }
 
+        private void calculateLetterFrequency()
+        {
+
+            //clear the array count first
+            for (int i = 0; i < 26; i++)
+            {
+                letterFrequency[i] = 0;
+            }
+
+
+            for (int i = 0; i < sentence.Length; i++)
+            {
+                char currentChar = sentence[i].ToString().ToLower().ToCharArray()[0];
+                //using ASCII value to calculate the characters position in the alphabet, if it is a letter
+                int indexOfChar = (int)currentChar - 65;
+                //verify it is within the alphabet range
+                if(indexOfChar>=0 && indexOfChar <= 25)
+                {
+                    letterFrequency[indexOfChar]++;
+                }
+            }
+        }
+
     }
 }
