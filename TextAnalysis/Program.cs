@@ -10,6 +10,12 @@ namespace TextAnalysis
     {
         static void Main(string[] args)
         {
+            bool entryEnd = false;
+            // user has to enter each sentence one at a time 
+            while (!entryEnd)
+            {
+
+            }
 
         }
     }
