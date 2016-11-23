@@ -10,6 +10,7 @@ namespace TextAnalysis
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
