@@ -24,6 +24,13 @@ namespace TextAnalysis
             calculateWordCount();
 
             //calculate vowel and consonant count
+            calculateVowelAndConsonantCount();
+
+            //calculate upper and lower case count
+            calculateUpperAndLowerCaseCount();
+
+            //calculate letter frequency
+            calculateLetterFrequency();
         }
 
 
@@ -95,7 +102,6 @@ namespace TextAnalysis
             {
                 letterFrequency[i] = 0;
             }
-
 
             for (int i = 0; i < sentence.Length; i++)
             {
