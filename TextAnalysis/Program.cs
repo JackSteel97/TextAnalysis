@@ -10,10 +10,20 @@ namespace TextAnalysis
     {
         static void Main(string[] args)
         {
-
+           
             int choice = getUserChoice();
 
+            if(choice == 1)
+            {
+                //option 1 - enter text manually, sentence by sentence, * terminator
+                Console.Clear();
+                option1();
+                
 
+            }else
+            {
+                //option 2
+            }
 
         }
 
@@ -31,6 +41,7 @@ namespace TextAnalysis
             {
                 try
                 {
+                    choice = Convert.ToInt32(userInput);
 
                     if (choice == 1 || choice == 2)
                     {
@@ -59,6 +70,40 @@ namespace TextAnalysis
 
             return choice;
 
+        }
+
+
+        private static void option1()
+        {
+            bool endRequested = false;
+            Console.WriteLine("Enter each sentence one at a time, pressing enter at the end of every sentence.");
+            Console.WriteLine("End your last sentence with '*' to terminate entry.");
+
+            List<Sentence> sentences = new List<Sentence>();
+
+            while (!endRequested)
+            {
+                string userInput = Console.ReadLine();
+
+                if (userInput.Length == 0)
+                {
+                    Console.WriteLine("\nThat sentence was empty so we've ignored it.\n");
+                }
+
+                if (userInput[userInput.Length - 1] == '*')
+                {
+                    //termination requested
+                    endRequested = true;
+                    userInput = userInput.Remove(userInput.Length - 1, 1);
+                }
+
+
+                Sentence currentSentence = new Sentence(userInput);
+
+
+
+
+            }
         }
     }
 }
