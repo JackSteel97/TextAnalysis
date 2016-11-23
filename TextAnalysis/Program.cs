@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TextAnalysis
 {
     class Program
     {
+        /// <summary>
+        /// Mains method
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         static void Main(string[] args)
         {
            
@@ -16,19 +18,20 @@ namespace TextAnalysis
             if (choice == 1)
             {
                 //option 1 - enter text manually, sentence by sentence, * terminator
-                option1();
-                
-
+                option1(); 
             }else
             {
                 //option 2 - read text from file
                 option2();
-                
             }
 
             Console.Read();
         }
 
+        /// <summary>
+        /// Gets the user choice.
+        /// </summary>
+        /// <returns>choice as an integer, either 1 or 2</returns>
         private static int getUserChoice()
         {
 
@@ -75,6 +78,9 @@ namespace TextAnalysis
         }
 
 
+        /// <summary>
+        /// executes option 1.
+        /// </summary>
         private static void option1()
         {
             bool endRequested = false;
@@ -107,6 +113,9 @@ namespace TextAnalysis
             analyseSentences(sentences);
         }
 
+        /// <summary>
+        /// executes option 2.
+        /// </summary>
         private static void option2()
         {
             string filename = "example.txt";
@@ -128,6 +137,10 @@ namespace TextAnalysis
             findLongWords(sentences);
         }
 
+        /// <summary>
+        /// Finds the long words (over 7 characters) in a given set of sentences.
+        /// </summary>
+        /// <param name="sentences">The sentences.</param>
         private static void findLongWords(List<Sentence> sentences)
         {
             const int MIN_CHARACTERS_NEEDED = 7;
@@ -168,11 +181,19 @@ namespace TextAnalysis
 
         }
 
+        /// <summary>
+        /// Saves the words to a file named LongWords.txt in the local directory.
+        /// </summary>
+        /// <param name="words">The words.</param>
         private static void saveWordsToFile(List<string> words)
         {
             System.IO.File.WriteAllLines("LongWords.txt", words.ToArray());
         }
 
+        /// <summary>
+        /// Analyses the given sentences and outputs the results.
+        /// </summary>
+        /// <param name="sentences">The sentences.</param>
         private static void analyseSentences(List<Sentence> sentences)
         {
             //initialise counters
