@@ -41,7 +41,7 @@ namespace TextAnalysis
             this.wordCount = words;
         }
 
-        private void calculateVowelCount()
+        private void calculateVowelAndConsonantCount()
         {
             int vowels = 0;
             int consonants = 0;
@@ -61,6 +61,30 @@ namespace TextAnalysis
             }
             this.vowelCount = vowels;
             this.consonantCount = consonants;
+        }
+
+        private void calculateUpperAndLowerCaseCount()
+        {
+            int lowerCase = 0;
+            int upperCase = 0;
+
+            for (int i = 0; i < sentence.Length; i++)
+            {
+                char currentChar = sentence[i];
+
+                if((int)currentChar <= 90 || (int)currentChar>= 65)
+                {
+                    //upper case letter
+                    upperCase++;
+                }else if ((int) currentChar <= 122 || (int)currentChar >= 97)
+                {
+                    //lower case
+                    lowerCase++;
+                }
+            }
+
+            this.lowercaseCount = lowerCase;
+            this.uppercaseCount = upperCase;
         }
 
     }
