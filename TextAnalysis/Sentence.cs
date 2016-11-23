@@ -14,7 +14,7 @@ namespace TextAnalysis
         private int consonantCount = 0;
         private int uppercaseCount = 0;
         private int lowercaseCount = 0;
-        private int[] letterFrequency = new int[25];
+        private int[] letterFrequency = new int[26];
 
 
         public Sentence(string sentenceContent){
@@ -61,7 +61,7 @@ namespace TextAnalysis
                     vowels++;
 
                     //else, check the character is actually an upper or lower case letter before assuming it is a consonant
-                }else if((int)currentChar.ToCharArray()[0]<=90 && (int)currentChar.ToCharArray()[0] >= 65 && (int)currentChar.ToCharArray()[0] <=122 && (int)currentChar.ToCharArray()[0] >= 97)
+                }else if(((int)currentChar.ToCharArray()[0]<=90 && (int)currentChar.ToCharArray()[0] >= 65) || ((int)currentChar.ToCharArray()[0] <=122 && (int)currentChar.ToCharArray()[0] >= 97))
                 {
                     consonants++;
                 }
@@ -79,11 +79,11 @@ namespace TextAnalysis
             {
                 char currentChar = sentence[i];
 
-                if((int)currentChar <= 90 || (int)currentChar>= 65)
+                if((int)currentChar <= 90 && (int)currentChar>= 65)
                 {
                     //upper case letter
                     upperCase++;
-                }else if ((int) currentChar <= 122 || (int)currentChar >= 97)
+                }else if ((int) currentChar <= 122 && (int)currentChar >= 97)
                 {
                     //lower case
                     lowerCase++;

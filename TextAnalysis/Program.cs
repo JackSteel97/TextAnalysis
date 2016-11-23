@@ -25,6 +25,7 @@ namespace TextAnalysis
                 //option 2
             }
 
+            Console.Read();
         }
 
         private static int getUserChoice()
@@ -108,20 +109,47 @@ namespace TextAnalysis
         private static void analyseSentences(List<Sentence> sentences)
         {
             //initialise counters
+            int sentenceCount = sentences.Count();
             int wordCount = 0;
             int vowelCount = 0;
             int consonantCount = 0;
             int uppercaseCount = 0;
             int lowercaseCount = 0;
-            int[] letterFrequency = new int[25];
+            int[] letterFrequency = new int[26];
 
             for (int i = 0; i < sentences.Count; i++)
             {
                 Sentence currentSentence = sentences[i];
-                //for every sentence
-               // wordCount += currentSentence
+                //for every sentence add counts to total
+                wordCount += currentSentence.getWordCount();
+                vowelCount += currentSentence.getVowelCount();
+                consonantCount += currentSentence.getConsonantCount();
+                uppercaseCount += currentSentence.getUppercaseCount();
+                lowercaseCount += currentSentence.getLowercaseCount();
 
+                int[] sentenceLetterFrequency = currentSentence.getLetterFrequency();
+
+                for (int n = 0; n < sentenceLetterFrequency.Length; n++)
+                {
+                    letterFrequency[n] += sentenceLetterFrequency[n];
+                }
             }
-    }
+
+            //print results
+
+            Console.WriteLine("Number of sentences entered = {0}", sentenceCount);
+            Console.WriteLine("Number of words = {0}", wordCount);
+            Console.WriteLine("Number of vowels = {0}", vowelCount);
+            Console.WriteLine("Number of consonants = {0}", consonantCount);
+            Console.WriteLine("Number of upper case letters = {0}", uppercaseCount);
+            Console.WriteLine("Number of lower case letters = {0}", lowercaseCount);
+            for (int i = 0; i < letterFrequency.Length; i++)
+            {
+                if (letterFrequency[i] != 0) {
+                    Console.WriteLine("The letter '{0}' appeared {1} times",(char)i+65,letterFrequency[i]);
+                }
+            }
+        }
     }
 }
+
