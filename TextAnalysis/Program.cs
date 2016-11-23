@@ -22,7 +22,7 @@ namespace TextAnalysis
             }else
             {
                 //option 2 - read text from file
-
+                option2();
                 
             }
 
@@ -107,6 +107,38 @@ namespace TextAnalysis
             analyseSentences(sentences);
         }
 
+        private static void option2()
+        {
+            string filename = "example.txt";
+            string fileContents = "";
+            List<Sentence> sentences = new List<Sentence>();
+
+            fileContents = System.IO.File.ReadAllText(filename);
+            string currentSentence = "";
+            for (int i = 0; i < fileContents.Length; i++)
+            {
+                if (fileContents[i] == '.')
+                {
+                    currentSentence += fileContents[i];
+                    sentences.Add(new Sentence(currentSentence));
+                    currentSentence = "";
+                    i++;
+                }else
+                {
+                    currentSentence += fileContents[i];
+                }
+
+            }
+
+            analyseSentences(sentences);
+            findLongWords(sentences);
+        }
+
+        private static void findLongWords(List<Sentence> sentences)
+        {
+
+        }
+
         private static void analyseSentences(List<Sentence> sentences)
         {
             //initialise counters
@@ -154,6 +186,7 @@ namespace TextAnalysis
                 }
             }
         }
+
     }
 }
 
