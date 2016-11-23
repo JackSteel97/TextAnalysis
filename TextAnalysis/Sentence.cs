@@ -146,5 +146,10 @@ namespace TextAnalysis
         {
             return this.letterFrequency;
         }
+
+        public string getSentenceContent()
+        {
+            return sentence;
+        }
     }
 }

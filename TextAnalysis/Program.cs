@@ -113,21 +113,15 @@ namespace TextAnalysis
             string fileContents = "";
             List<Sentence> sentences = new List<Sentence>();
 
-            fileContents = System.IO.File.ReadAllText(filename);
-            string currentSentence = "";
-            for (int i = 0; i < fileContents.Length; i++)
-            {
-                if (fileContents[i] == '.')
-                {
-                    currentSentence += fileContents[i];
-                    sentences.Add(new Sentence(currentSentence));
-                    currentSentence = "";
-                    i++;
-                }else
-                {
-                    currentSentence += fileContents[i];
-                }
 
+            string[] lines = System.IO.File.ReadAllLines(filename);
+            foreach(string line in lines)
+            {
+                //assuming each sentence is on a new line
+                if (line.Length > 0)
+                {
+                    sentences.Add(new Sentence(line));
+                }
             }
 
             analyseSentences(sentences);
@@ -136,7 +130,47 @@ namespace TextAnalysis
 
         private static void findLongWords(List<Sentence> sentences)
         {
+            const int MIN_CHARACTERS_NEEDED = 7;
 
+            List<string> foundWords = new List<string>();
+            
+            foreach(Sentence sentence in sentences)
+            {
+                string content = sentence.getSentenceContent();
+                string currentWord = "";
+
+                for(int i = 0; i < content.Length; i++)
+                {
+                    char currentChar = content[i].ToString().ToUpper().ToCharArray()[0];
+                    if((int)currentChar<65 || (int)currentChar > 90)
+                    {
+                        //this character is not a letter, therefore, the word ended
+                        if (currentWord.Length > MIN_CHARACTERS_NEEDED)
+                        {
+                            //this is a long word
+                            if (!foundWords.Contains(currentWord))
+                            {
+                                foundWords.Add(currentWord);
+                            }
+                        }
+                        //empty word holder
+                        currentWord = "";
+                    }else
+                    {
+                        //concat the letter
+                        currentWord += content[i];
+                    }
+                }
+            }
+
+            saveWordsToFile(foundWords);
+
+
+        }
+
+        private static void saveWordsToFile(List<string> words)
+        {
+            System.IO.File.WriteAllLines("LongWords.txt", words.ToArray());
         }
 
         private static void analyseSentences(List<Sentence> sentences)
