@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
+//TODO: Stretch Exercise: mood analysis
 namespace TextAnalysis
 {
     /// <summary>
@@ -35,6 +37,11 @@ namespace TextAnalysis
             
             //halt application for reading
             Console.Read();
+        }
+
+        private static void analyseSentiment(List<Sentence> sentences)
+        {
+
         }
 
         /// <summary>
@@ -154,6 +161,7 @@ namespace TextAnalysis
             }
             //call analyseSentences and pass the list of sentences to carry out the analysis
             analyseSentences(sentences);
+            analyseSentiment(sentences);
         }
 
         /// <summary>
@@ -167,17 +175,18 @@ namespace TextAnalysis
             List<Sentence> sentences = new List<Sentence>();
 
             //read each line from the file into a new index of an array
-            string[] lines = System.IO.File.ReadAllLines(fileName);
-            //loop through the lines we read in, line by line
-            foreach(string line in lines)
+            string fileText = System.IO.File.ReadAllText(fileName);
+
+            //Regular expression for finding sentences in text
+            Regex sentenceRx = new Regex(@"(\S.+?[.!?])(?=\s+|$)");
+
+            //loop through the regex matches
+            foreach (Match aSentence in sentenceRx.Matches(fileText))
             {
-                //assuming each sentence is on a new line, if the line is not empty
-                if (line.Length > 0)
-                {
-                    //add the sentence to the list of sentences
-                    sentences.Add(new Sentence(line));
-                }
+                //add each match to the list of sentences
+                sentences.Add(new Sentence(aSentence.Value));
             }
+
             //call analyseSentences and pass the list of sentences to carry out the analysis
             analyseSentences(sentences);
             //call findLongWords and pass the list of sentences to find long words and save to file
@@ -209,8 +218,8 @@ namespace TextAnalysis
                 {
                     //get the current character in uppercase for processing ease
                     char currentChar = content[i].ToString().ToUpper().ToCharArray()[0];
-                    //check if the current character is outside of the range of letters, indicating the end of a word.
-                    if((int)currentChar<65 || (int)currentChar > 90)
+                    //check if the current character not a letter, indicating the end of a word.
+                    if(!char.IsLetter(currentChar))
                     {
                         //this character is not a letter, therefore, the word ended
                         if (currentWord.Length > MIN_CHARACTERS_NEEDED)

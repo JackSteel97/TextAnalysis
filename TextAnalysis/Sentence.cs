@@ -82,7 +82,7 @@
                     vowels++;
 
                     //else, check the character is actually an upper or lower case letter before assuming it is a consonant
-                }else if(((int)currentChar.ToCharArray()[0]<=90 && (int)currentChar.ToCharArray()[0] >= 65) || ((int)currentChar.ToCharArray()[0] <=122 && (int)currentChar.ToCharArray()[0] >= 97))
+                }else if(char.IsLetter(currentChar.ToCharArray()[0]))
                 {
                     //increment the consonant counter
                     consonants++;
@@ -108,15 +108,16 @@
                 //get the current character at index i
                 char currentChar = sentence[i];
                 
-                //check if the ASCII value of the character puts it in the range of uppercase letters
-                if((int)currentChar <= 90 && (int)currentChar>= 65)
+                //check if the character is uppercase
+                if(char.IsUpper(currentChar))
                 {
                     //upper case letter
                     //increment counter
                     upperCase++;
+                    
 
-                    //else, check if the ASCII value of the character puts it in the range of lowercase letters
-                }else if ((int) currentChar <= 122 && (int)currentChar >= 97)
+                    //else, check if the character is lowercase 
+                }else if (char.IsLower(currentChar))
                 {
                     //lower case
                     //increment counter
