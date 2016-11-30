@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -39,8 +40,73 @@ namespace TextAnalysis
             Console.Read();
         }
 
-        private static void analyseSentiment(List<Sentence> sentences)
+        /// <summary>
+        /// Analyses the sentiment of a given set of sentences
+        /// </summary>
+        /// <param name="sentences">The sentences to be analysed.</param>
+        private static async void analyseSentiment(List<Sentence> sentences)
         {
+            //instantiate a new instance of the SentimentAnalysis class
+            SentimentAnalysis analyser = new SentimentAnalysis();
+            string text = "";
+            Console.WriteLine("\n\nAnalysing Sentiment, Please Wait...\n");
+            
+            //loop through the list of sentences, sentence by sentence
+            foreach (Sentence sentence in sentences)
+            {
+                //concatenate each sentence into one string
+                text += sentence.getSentenceContent() + " ";
+            }
+            //call the getSentiment method and wait for it to finish
+            string response = await analyser.getSentiment(text);
+
+            //convert the JSON response to a dynamic object so we don't have to create classes for the response ourselves
+            dynamic stuff = JsonConvert.DeserializeObject(response);
+
+            //initialise a score variable
+            decimal score = 0;
+
+            try
+            {
+                //try to read the score from the dynamic object, if it exists. multiply by 100 to make it a percentage
+                score = stuff.documents[0].score * 100;
+            }
+            catch
+            {
+                //the score does not exist, something went wrong with the API call
+                Console.WriteLine("Sentiment analysis failed!");
+                return;
+            }
+
+            //Output the score
+            Console.WriteLine("With a sentiment score of {0}% we determined that: ", score);
+
+            //Output the score in a more user friendly way
+            if(score >= 40 && score <= 60)
+            {
+                //fairly neutral text
+                Console.WriteLine("This text is neutral");
+            }else if(score<40 && score >= 20)
+            {
+                Console.WriteLine("This text is somewhat negative");
+            }else if (score < 20 && score>=10)
+            {
+                Console.WriteLine("This text is negative");
+            }else if (score < 10)
+            {
+                Console.WriteLine("This text is very negative");
+            }else if (score > 60 && score <= 80)
+            {
+                Console.WriteLine("This text is somewhat positive");
+            }else if(score > 80 && score <= 90)
+            {
+                Console.WriteLine("This text is positive");
+            }else if (score > 90)
+            {
+                Console.WriteLine("This text is very positive");
+            }
+            
+
 
         }
 
@@ -161,6 +227,7 @@ namespace TextAnalysis
             }
             //call analyseSentences and pass the list of sentences to carry out the analysis
             analyseSentences(sentences);
+            //call analyseSentiment and pass the list of sentences to find the sentiment of the text
             analyseSentiment(sentences);
         }
 
@@ -191,6 +258,8 @@ namespace TextAnalysis
             analyseSentences(sentences);
             //call findLongWords and pass the list of sentences to find long words and save to file
             findLongWords(sentences);
+            //call analyseSentiment and pass the list of sentences to find the sentiment of the text
+            analyseSentiment(sentences);
         }
 
         /// <summary>
