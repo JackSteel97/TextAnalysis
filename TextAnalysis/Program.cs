@@ -18,11 +18,12 @@ namespace TextAnalysis
         /// <param name="args">The arguments.</param>
         static void Main(string[] args)
         {
+            
             //get the users choice into an int
             int choice = getUserChoice();
             //clear the contents of the console display
             Console.Clear();
-
+            
             //execute the appropriate function based on the user's choice
             switch (choice)
             {
@@ -38,6 +39,41 @@ namespace TextAnalysis
             
             //halt application for reading
             Console.Read();
+        }
+
+        private static void analyseSentimentLocal(List<Sentence> sentences) {
+            OfflineSentimentAnalysis analyser = new OfflineSentimentAnalysis();
+
+            analyser.init();
+            double score = analyser.analyseSentences(sentences);
+
+            outputUserFriendlyScore(score);
+
+        }
+
+        private static void outputUserFriendlyScore(double score) {
+            Console.WriteLine("With a sentiment score of {0}% we determined that: ", score);
+
+            //Output the score in a more user friendly way
+            if(score >= 48 && score <= 52) {
+                Console.WriteLine("This text is neutral");
+            } else if(score >= 40 && score < 48) {
+                Console.WriteLine("This text is mostly neutral, but slightly negative");
+            } else if(score > 52 && score <= 60) {
+                Console.WriteLine("This text is mostly neutral, but slightly positive");
+            } else if(score < 40 && score >= 20) {
+                Console.WriteLine("This text is somewhat negative");
+            } else if(score < 20 && score >= 10) {
+                Console.WriteLine("This text is negative");
+            } else if(score < 10) {
+                Console.WriteLine("This text is very negative");
+            } else if(score > 60 && score <= 80) {
+                Console.WriteLine("This text is somewhat positive");
+            } else if(score > 80 && score <= 90) {
+                Console.WriteLine("This text is positive");
+            } else if(score > 90) {
+                Console.WriteLine("This text is very positive");
+            }
         }
 
         /// <summary>
@@ -64,7 +100,7 @@ namespace TextAnalysis
             dynamic stuff = JsonConvert.DeserializeObject(response);
 
             //initialise a score variable
-            decimal score = 0;
+            double score = 0;
 
             try
             {
@@ -79,32 +115,7 @@ namespace TextAnalysis
             }
 
             //Output the score
-            Console.WriteLine("With a sentiment score of {0}% we determined that: ", score);
-
-            //Output the score in a more user friendly way
-            if(score >= 40 && score <= 60)
-            {
-                //fairly neutral text
-                Console.WriteLine("This text is neutral");
-            }else if(score<40 && score >= 20)
-            {
-                Console.WriteLine("This text is somewhat negative");
-            }else if (score < 20 && score>=10)
-            {
-                Console.WriteLine("This text is negative");
-            }else if (score < 10)
-            {
-                Console.WriteLine("This text is very negative");
-            }else if (score > 60 && score <= 80)
-            {
-                Console.WriteLine("This text is somewhat positive");
-            }else if(score > 80 && score <= 90)
-            {
-                Console.WriteLine("This text is positive");
-            }else if (score > 90)
-            {
-                Console.WriteLine("This text is very positive");
-            }
+            outputUserFriendlyScore(score);
             
 
 
@@ -177,6 +188,64 @@ namespace TextAnalysis
 
         }
 
+        private static int getUserChoiceForSentiment () {
+            //present the choices to the user and ask for an input
+            Console.WriteLine("Select a sentiment analysis option: ");
+            Console.WriteLine("1. Local Analysis");
+            Console.WriteLine("2. Online Analysis");
+
+            //get the user's input as a string
+            string userInput = Console.ReadLine();
+            //initialise validity flag and choice variable
+            bool validInput = false;
+            int choice = 0;
+
+            //keep asking till we get a valid answer
+            while(!validInput) {
+                try {
+                    //attempt conversion to an integer
+                    //if the user enters a non-numeric input, run catch block
+                    choice = Convert.ToInt32(userInput);
+
+                    //check if the choice is one of the expected ones
+                    if(choice == 1 || choice == 2) {
+                        //it is, input is valid, we can exit the loop now
+                        validInput = true;
+                    } else {
+                        //it was a number but not what we expected
+                        //clear the console
+                        Console.Clear();
+                        //inform user of invalid input
+                        Console.WriteLine("Invalid input, please try again.\n");
+                        //ask for inputs again
+                        
+                        Console.WriteLine("1. Local Analysis");
+                        Console.WriteLine("2. Online Analysis");
+                        //get user's input
+                        userInput = Console.ReadLine();
+                        //attempt conversion to integer again and run catch block if non-numeric
+                        choice = Convert.ToInt32(userInput);
+                    }
+                }
+                //runs if the conversion to integer in the try block fails because 'userInput' is non-numeric
+                catch(Exception ex) {
+                    //clear the console
+                    Console.Clear();
+                    //inform user of invalid input
+                    Console.WriteLine("Invalid input, please try again.\n");
+                    //as for inputs again
+                    Console.WriteLine("1. Local Analysis");
+                    Console.WriteLine("2. Online Analysis");
+                    //get the user's input
+                    userInput = Console.ReadLine();
+                    //don't try conversion here because if it fails the program will crash.                    
+                }
+            }
+            //return the valid choice
+            return choice;
+
+        }
+
 
         /// <summary>
         /// executes option 1.
@@ -227,8 +296,36 @@ namespace TextAnalysis
             }
             //call analyseSentences and pass the list of sentences to carry out the analysis
             analyseSentences(sentences);
-            //call analyseSentiment and pass the list of sentences to find the sentiment of the text
-            analyseSentiment(sentences);
+
+            
+
+            Console.WriteLine("Would you like to perform a sentiment analysis on this text? (y/n)");
+            string input = Console.ReadLine();
+
+            
+               
+             while(input.ToLower() != "y" && input.ToLower() != "n") {
+                Console.WriteLine("Invalid Entry\n\n");
+                Console.WriteLine("Would you like to perform a sentiment analysis on this text? (y/n)");
+                input = Console.ReadLine();
+            }
+
+            if(input.ToLower() == "y") {
+                Console.Clear();
+                int choice = getUserChoiceForSentiment();
+
+                if(choice == 1) {
+                    //local
+                    analyseSentimentLocal(sentences);
+                } else {
+                    //online
+                    analyseSentiment(sentences);
+                }
+
+
+            }
+
+            
         }
 
         /// <summary>

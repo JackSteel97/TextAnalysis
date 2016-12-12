@@ -3,7 +3,7 @@
     /// <summary>
     /// Class for storing a sentence and performing analysis of that sentence
     /// </summary>
-    class Sentence
+    public class Sentence
     {
         private string sentence = "";
         private int wordCount = 0;

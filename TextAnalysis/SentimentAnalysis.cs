@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 /// </summary>
 namespace TextAnalysis
 {
-    class SentimentAnalysis
+   public class SentimentAnalysis
     {
         /// <summary>
         /// Gets the sentiment of given text.
