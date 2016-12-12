@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TextAnalysis
 {
-    //code adapted from http://sentiwordnet.isti.cnr.it/code/SentiWordNetDemoCode.java
+
     public class OfflineSentimentAnalysis
     {
         string[] posLines, negLines;
