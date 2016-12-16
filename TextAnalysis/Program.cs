@@ -41,17 +41,29 @@ namespace TextAnalysis
             Console.Read();
         }
 
+        /// <summary>
+        /// Analyses the sentiment locally.
+        /// </summary>
+        /// <param name="sentences">The sentences.</param>
         private static void analyseSentimentLocal(List<Sentence> sentences) {
+            //instantiate a new OfflineSentimentAnalysis object
             OfflineSentimentAnalysis analyser = new OfflineSentimentAnalysis();
-
+            //initialise the base values for this object
             analyser.init();
+            //analyse the sentiment of the sentences and return the percentage score
             double score = analyser.analyseSentences(sentences);
 
+            //output the score
             outputUserFriendlyScore(score);
 
         }
 
+        /// <summary>
+        /// Outputs the score in a more user friendly way.
+        /// </summary>
+        /// <param name="score">The score.</param>
         private static void outputUserFriendlyScore(double score) {
+            //output base score
             Console.WriteLine("With a sentiment score of {0}% we determined that: ", score);
 
             //Output the score in a more user friendly way
