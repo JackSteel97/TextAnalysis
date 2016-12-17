@@ -1,25 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace TextAnalysis {
 
-namespace TextAnalysis
-{
     /// <summary>
     /// Class for handling offline sentiment analysis
     /// </summary>
-    public class OfflineSentimentAnalysis
-    {
+    public class OfflineSentimentAnalysis {
+
         // string arrays for storing the raw lines from each text file
-        string[] posLines, negLines;
+        private string[] posLines, negLines;
+
         // lists of string for storing the words from each text file
-        List<string> positiveWords;
-        List<string> negativeWords;
+        private List<string> positiveWords;
+
+        private List<string> negativeWords;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="OfflineSentimentAnalysis"/> class.
         /// </summary>
-        public OfflineSentimentAnalysis ()
-        {
+        public OfflineSentimentAnalysis () {
             posLines = System.IO.File.ReadAllLines("positive-words.txt");
             negLines = System.IO.File.ReadAllLines("negative-words.txt");
         }
@@ -27,35 +26,27 @@ namespace TextAnalysis
         /// <summary>
         /// Initialises this instance, reading from the text files.
         /// </summary>
-        public void init()
-        {
+        public void init () {
             //initialise each list
             positiveWords = new List<string>();
             negativeWords = new List<string>();
 
-
             //go through the positive lines
-            foreach (string line in posLines)
-            {
+            foreach(string line in posLines) {
                 //if it's a comment or empty, skip line
-                if (!line.Trim().StartsWith(";") && line.Length > 0)
-                {
+                if(!line.Trim().StartsWith(";") && line.Length > 0) {
                     //otherwise add the word to the list
                     positiveWords.Add(line);
                 }
-
             }
 
             //go through the negative lines
-            foreach (string line in negLines)
-            {
+            foreach(string line in negLines) {
                 //if it's a comment or empty, skip line
-                if(!line.Trim().StartsWith(";") && line.Length > 0)
-                {
+                if(!line.Trim().StartsWith(";") && line.Length > 0) {
                     //otherwise add the word to the list
                     negativeWords.Add(line);
                 }
-
             }
         }
 
@@ -64,8 +55,7 @@ namespace TextAnalysis
         /// </summary>
         /// <param name="sentences">The sentences.</param>
         /// <returns>A percentage value, 0 being very negative, 100 being very positive</returns>
-        public double analyseSentences(List<Sentence> sentences)
-        {
+        public double analyseSentences (List<Sentence> sentences) {
             //initialise counters
             int positiveWordCount = 0;
             int negativeWordCount = 0;
@@ -73,14 +63,12 @@ namespace TextAnalysis
 
             //count and categorise the words
             //loop through the sentences
-            foreach(Sentence sentence in sentences)
-            {
+            foreach(Sentence sentence in sentences) {
                 //get an array of the words in that sentence, by splitting at every space
                 string[] words = sentence.getSentenceContent().Split(' ');
 
                 //loop through the array of words
-                foreach (string word in words)
-                {
+                foreach(string word in words) {
                     //increment the word counter
                     totalWordCount++;
                     //check if the word is in the positive list
@@ -94,10 +82,8 @@ namespace TextAnalysis
                         //increment the negative word count if it is
                         negativeWordCount++;
                     }
-                    
                 }
             }
-
 
             // assign weights to each word category and calculate a score
             int posScore = 100 * positiveWordCount;
@@ -110,10 +96,6 @@ namespace TextAnalysis
 
             //return percentage
             return sentimentScore;
-
-
-
         }
     }
 }
-

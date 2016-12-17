@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 /// <summary>
 /// Class for analysing the sentiment of some text using Microsoft cognitive services' text analytics API
 /// </summary>
-namespace TextAnalysis
-{
-   public class SentimentAnalysis
-    {
+namespace TextAnalysis {
+
+    public class SentimentAnalysis {
+
         /// <summary>
         /// Gets the sentiment of given text.
         /// </summary>
@@ -20,15 +20,12 @@ namespace TextAnalysis
         /// <returns>
         /// A JSON Object containing an array of documents each with an ID number and score between 0 and 1
         /// </returns>
-        public async Task<string> getSentiment(string text)
-        {
-
+        public async Task<string> getSentiment (string text) {
             /*
              * get the API key from the config file.
              * keeps the key private when using GitHub to manage code
              */
             string APIKey = ConfigurationManager.AppSettings["MicrosoftTextAnalyticsKey"];
-            
 
             //based on https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-text-analytics-quick-start
             //declare constant base URL string
@@ -47,7 +44,7 @@ namespace TextAnalysis
              * given text converted to JSON format and dynamically escaped using Newtonsoft.Json library
              */
             string jsonRequestData = ("{\"documents\":[{\"id\": \"1\",\"text\": " + JsonConvert.SerializeObject(text) + "}]}");
-           
+
             //convert the json data to a byte array
             byte[] byteData = Encoding.UTF8.GetBytes(jsonRequestData);
 
@@ -61,8 +58,6 @@ namespace TextAnalysis
 
             //read the response content and return to caller
             return await response.Content.ReadAsStringAsync();
-
         }
-
     }
 }
