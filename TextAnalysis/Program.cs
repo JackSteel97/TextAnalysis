@@ -35,6 +35,7 @@ namespace TextAnalysis {
                     break;
             }
 
+            Console.WriteLine("\n\n\tPress enter to exit...");
             //halt application for reading
             Console.Read();
         }
@@ -371,7 +372,7 @@ namespace TextAnalysis {
             //sort the long words into alphabetical order
             foundWords.Sort();
             //output words to the console
-            Console.WriteLine("Long Words Found: \n");
+            Console.WriteLine("\nLong Words Found:");
             foreach(string word in foundWords) {
                 Console.WriteLine("\t\t{0}", word);
             }
@@ -385,7 +386,7 @@ namespace TextAnalysis {
         /// <param name="words">The words.</param>
         private static void saveWordsToFile (List<string> words) {
             //ask for file name and location in the form of a path
-            Console.WriteLine("Enter a file path to save long words (e.g. C:\\LongWords.txt)");
+            Console.WriteLine("\nEnter a file path to save long words (e.g. C:\\LongWords.txt)");
             //get user input
             string filePath = Console.ReadLine();
             //add .txt if necessary
@@ -430,10 +431,7 @@ namespace TextAnalysis {
             }
 
             //print results
-            //clear the console content
-            Console.Clear();
-
-            Console.WriteLine("\t\tRESULTS\n\n");
+            Console.WriteLine("\n\t\tRESULTS\n\n");
             Console.WriteLine("Number of sentences entered = {0}", sentenceCount);
             Console.WriteLine("Number of words = {0}", wordCount);
             Console.WriteLine("Number of vowels = {0}", vowelCount);
