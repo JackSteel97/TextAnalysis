@@ -414,7 +414,7 @@ namespace TextAnalysis {
             int lowercaseCount = 0;
             int[] letterFrequency = new int[26];
 
-            //loop through the sentence, character by character
+            //loop through the sentences, sentence by sentence
             for(int i = 0; i < sentences.Count; i++) {
                 //get the current sentence from the list
                 Sentence currentSentence = sentences[i];
