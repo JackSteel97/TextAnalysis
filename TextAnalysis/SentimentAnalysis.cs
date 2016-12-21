@@ -6,12 +6,15 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-/// <summary>
-/// Class for analysing the sentiment of some text using Microsoft cognitive services' text analytics API
-/// </summary>
 namespace TextAnalysis {
 
+    /// <summary>
+    /// Class for analysing the sentiment of some text using Microsoft cognitive services' text analytics API
+    /// </summary>
     public class SentimentAnalysis {
+
+        //declare constant base URL string
+        private const string URL = "https://westus.api.cognitive.microsoft.com";
 
         /// <summary>
         /// Gets the sentiment of given text.
@@ -23,15 +26,15 @@ namespace TextAnalysis {
         public async Task<string> getSentiment (string text) {
             /*
              * get the API key from the config file.
-             * keeps the key private when using GitHub to manage code
+             * this keeps the key private and is the standard for storing key-value pairs such as API keys, and connection strings
              */
             string APIKey = ConfigurationManager.AppSettings["MicrosoftTextAnalyticsKey"];
 
             //based on https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-text-analytics-quick-start
-            //declare constant base URL string
-            const string URL = "https://westus.api.cognitive.microsoft.com";
+
             //instantiate the HTTP client object
             HttpClient client = new HttpClient();
+            //set the base address for the client
             client.BaseAddress = new Uri(URL);
 
             //add headers for request

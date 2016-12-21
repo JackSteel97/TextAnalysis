@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-//TODO: Stretch Exercise: mood analysis
 namespace TextAnalysis {
 
     /// <summary>
@@ -105,22 +104,24 @@ namespace TextAnalysis {
             string response = await analyser.getSentiment(text);
 
             //convert the JSON response to a dynamic object so we don't have to create classes for the response ourselves
-            dynamic stuff = JsonConvert.DeserializeObject(response);
+            dynamic responseObj = JsonConvert.DeserializeObject(response);
 
             //initialise a score variable
             double score = 0;
 
             try {
                 //try to read the score from the dynamic object, if it exists. multiply by 100 to make it a percentage
-                score = stuff.documents[0].score * 100;
+                score = responseObj.documents[0].score * 100;
             } catch {
                 //the score does not exist, something went wrong with the API call
                 Console.WriteLine("Sentiment analysis failed!");
                 return;
             }
 
+            Console.Clear();
             //Output the score
             outputUserFriendlyScore(score);
+            Console.WriteLine("\n\n\tPress enter to exit...");
         }
 
         /// <summary>
@@ -178,7 +179,7 @@ namespace TextAnalysis {
                     }
                 }
                 //runs if the conversion to integer in the try block fails because 'userInput' is non-numeric
-                catch(Exception ex) {
+                catch {
                     //clear the console
                     Console.Clear();
                     //inform user of invalid input
@@ -301,9 +302,10 @@ namespace TextAnalysis {
             //initialise list of sentences
             List<Sentence> sentences = new List<Sentence>();
 
-            //read each line from the file into a new index of an array
+            //read the entire text file into the program and store in this variable
             string fileText = System.IO.File.ReadAllText(fileName);
-
+            //output the file contents
+            Console.WriteLine("The file contains the following text: \n\n{0}\n\n", fileText);
             //Regular expression for finding sentences in text
             /*matches a string that:
              * 1. starts with any none whitespace character
